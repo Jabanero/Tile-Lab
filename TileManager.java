@@ -5,35 +5,45 @@ import java.awt.*;
  * Teddy Lautch
  * D Block Data Structures
  * TileManager
- * Contains a list of tiles and controls reordering as well as adding and removing tiles
+ * Contains a list of tiles and controls reordering as 
+ * well as adding and removing tiles
  */
 public class TileManager {
     private ArrayList<Tile> tiles;
-    // This constructor is called every time a new tile manager object is created. 
-    // Initially your manager is not storing any tiles.
+    /**
+     * No parameter constructor initializes ArrayList of Tiles
+     */
     public TileManager(){
         tiles = new ArrayList<Tile>();
     }
-    // In this method you should add the given tile to the end of your tile 
-    // manager's list of tiles.
+    /**
+     * Takes in a Tile object and adds it to the end of the list
+     * @param rect
+     * This is the tile to be added
+     */
     public void addTile(Tile rect) {
         tiles.add(rect);
     }
-    // This method should cause all of the tiles in the tile manager to draw 
-    // themselves on the screen using the given graphical pen. You do not need to do 
-    // this yourself directly by calling methods on the Graphics object; each Tile 
-    // object already has a draw method that it can use to draw itself. Draw the 
-    // tiles from bottom (start) to top (end) of your manager's list.
-    // Recall that in order to refer to type Graphics, you must import java.awt.*; 
-    // in your code.
+    /**
+     * Uses Tile draw method to draw all objects in list.
+     * Tile objects are drawn from beginning to end, with the
+     * first tiles on the bottom
+     * @param g
+     * Graphics object used to draw the Tile Objects
+     */
     public void drawAll(Graphics g) {
         for (Tile tile : tiles) {
             tile.draw(g);
         }
     }
-    // Called when the user left-clicks. It passes you the x/y coordinates the user 
-    // clicked. If these coordinates touch any tiles, you should move the topmost of 
-    // these tiles to the very top (end) of the list.
+    /**
+     * Moves the topmost/(nearest to the end of the list) Tile under the coordinates
+     * to the top/(end of the list)
+     * @param x
+     * The X coordinate used to determine selectionn
+     * @param y
+     * The Y coordinate used to determine selectionn
+     */
     public void raise(int x, int y) {
         int i = tiles.size() - 1;
         while (i >= 0) {
@@ -46,9 +56,14 @@ public class TileManager {
             
         }
     }
-    // Called when the user Shift-left-clicks. If these coordinates touch any tiles, 
-    // you should move the topmost of these tiles to the very bottom (beginning) of 
-    // the list.
+    /**
+     * Moves the topmost/(nearest to the end of the list) Tile under the coordinates
+     * to the bottom/(start of the list)
+     * @param x
+     * The X coordinate used to determine selection
+     * @param y
+     * The Y coordinate used to determine selection
+     */
     public void lower(int x, int y) {
         int i = tiles.size() - 1;
         while (i >= 0) {
@@ -60,8 +75,14 @@ public class TileManager {
             i--;
         }
     }
-    // Called when the user right-clicks. If these coordinates touch any tiles, you 
-    // should delete the topmost of these tiles from the list.
+    /**
+     * Removes the topmost/(nearest to the end of the list) Tile under the coordinates
+     * from the list
+     * @param x
+     * The X coordinate used to determine selection
+     * @param y
+     * The Y coordinate used to determine selectio
+     */
     public void delete(int x, int y) {
         int i = tiles.size() - 1;
         while (i >= 0) {
@@ -72,8 +93,13 @@ public class TileManager {
             i--;
         }
     }
-    // Called when the user Shift-right-clicks. If these coordinates touch any 
-    // tiles, you should delete all such tiles from the list.
+    /**
+     * Removes all Tile objects under the coordinates from the list
+     * @param x
+     * The X coordinate used to determine selection
+     * @param y
+     * The Y coordinate used to determine selection
+     */
     public void deleteAll(int x, int y) {
         int i = 0;
         while (i < tiles.size()) {
@@ -84,16 +110,13 @@ public class TileManager {
             i++;
         }
     }
-    // Called when the user types S. This method should perform two actions: (1) 
-    // reordering the tiles in the list into a random order, and (2) moving every 
-    // tile on the screen to a new random x/y pixel position. The random position 
-    // should be such that the square's top-left x/y position is non-negative and 
-    // also such that every pixel of the tile is within the passed width and height. 
-    // For example, if the width passed is 300 and the height is 200, a tile of size 
-    // 20x10 must be moved to a random position such that its top-left x/y position 
-    // is between (0, 0) and (280, 190).
-    // You can use the built-in Java method Collections.shuffle to randomly 
-    // rearrange the elements of your list (step 1).
+    /**
+     * Shuffles the order of the list of Tile objects and randomizes all Tile positions
+     * @param width
+     * The horizontal limit for where the Tile positions can be randomized to
+     * @param height
+     * The vertical limit for where the Tile positions can be randomized to
+     */
     public void shuffle(int width, int height) {
         Collections.shuffle(tiles);
         Random rand = new Random();
@@ -102,6 +125,17 @@ public class TileManager {
             tile.setY(rand.nextInt(height - tile.getHeight() + 1));
         }
     }
+    /**
+     * Determines if the given x and y coordinates are over a Tile
+     * @param x
+     * The X coordinate used to determine selection
+     * @param y
+     * The Y coordinate used to determine selection
+     * @param tile
+     * The Tile Object that the coordinates are compared to
+     * @return
+     * Returns a boolean, true if the coordinates are within the Tile and false otherwise
+     */
     private boolean isOnTile(int x, int y, Tile tile){
         return x > tile.getX() && x < tile.getX() + tile.getWidth() && y > tile.getY() && y < tile.getY() + tile.getHeight();
     }
